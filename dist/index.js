@@ -22,7 +22,7 @@ function _main() {
             return _app["default"].listen(3000);
 
           case 2:
-            console.log("server en algo");
+            console.log("server en 3000");
 
           case 3:
           case "end":
@@ -33,3 +33,5 @@ function _main() {
   }));
   return _main.apply(this, arguments);
 }
+
+main();
