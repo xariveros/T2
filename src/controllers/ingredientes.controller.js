@@ -11,9 +11,7 @@ export async function createIngrediente(req, res) {
       },
       { fields: ["nombre", "descripcion"] }
     );
-    return res
-      .status(201)
-      .json({ message: "Ingrediente creado", new_ingrediente });
+    return res.status(201).json(new_ingrediente);
   } catch (e) {
     console.log(e);
     res.status(400).json({ message: "Input invalido" });
@@ -32,7 +30,7 @@ export async function getIngredienteById(req, res) {
   try {
     const ingrediente = await Ingrediente.findOne({ where: { id: id } });
     if (ingrediente) {
-      res.status(200).json({ message: "Operación exitosa", ingrediente });
+      res.status(200).json(ingrediente);
     } else {
       res.status(404).json({ message: "Ingrediente inexistente" });
     }
