@@ -1,4 +1,5 @@
 import Ingrediente from "../models/ingredientes";
+import Burger_Ingrediente from "../models/burgers_ingredientes";
 
 export async function createIngrediente(req, res) {
   const { nombre, descripcion } = await req.body;
