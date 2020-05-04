@@ -5,6 +5,7 @@ import {
   getBurgerById,
   deleteBurgerById,
   updateBurgerById,
+  addIngredientToBurger,
 } from "../controllers/burgers.controller";
 
 const router = Router();
@@ -14,5 +15,6 @@ router.get("/", allBurgers);
 router.get("/:id", getBurgerById);
 router.delete("/:id", deleteBurgerById);
 router.patch("/:id", updateBurgerById);
+router.put("/:id1/ingrediente/:id2", addIngredientToBurger);
 
 export default router;
