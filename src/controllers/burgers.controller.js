@@ -70,6 +70,14 @@ export async function getBurgerById(req, res) {
 
 export async function deleteBurgerById(req, res) {
   const { id } = req.params;
+  const burger_ingrediente = await Burger_Ingrediente.findOne({
+    where: { burgerId: id },
+  });
+  if (burger_ingrediente) {
+    const burger_ingrediente1 = await Burger_Ingrediente.destroy({
+      where: { burgerId: id },
+    });
+  }
   const how_many_deleted = await Burger.destroy({ where: { id: id } });
   if (how_many_deleted > 0) {
     res.status(200).json({ message: "se elimino", data: how_many_deleted });
