@@ -1,5 +1,5 @@
 "use strict";
-require("regenerator-runtime/runtime");
+const regeneratorRuntime = require("regenerator-runtime");
 
 var _app = _interopRequireDefault(require("./app"));
 
