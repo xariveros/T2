@@ -24,10 +24,14 @@ export async function createBurger(req, res) {
 }
 //get burger
 export async function allBurgers(req, res) {
-  const all_burgers = await Burger.findAll();
-  res.json({
-    data: all_burgers,
-  });
+  try {
+    const all_burgers = await Burger.findAll();
+    res.json({
+      data: all_burgers,
+    });
+  } catch (e) {
+    console.log("no hay");
+  }
 }
 
 //hamburguesa por id
