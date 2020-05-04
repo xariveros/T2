@@ -1,4 +1,5 @@
 import Burger from "../models/burgers";
+import Burger_Ingrediente from "../models/burgers_ingredientes";
 
 //post burger
 export async function createBurger(req, res) {
@@ -39,13 +40,17 @@ export async function allBurgers(req, res) {
 export async function getBurgerById(req, res) {
   const { id } = req.params;
   try {
-    const hamburguesa = await Burger.findOne({ where: { id: id } });
+    const hamburguesa = await Burger.findOne({
+      where: { id: id },
+      include: { model: Burger_Ingrediente, as: "ingredientes" },
+    });
     if (hamburguesa) {
       res.status(200).json(hamburguesa);
     } else {
       res.status(404).json({ message: "No existe" });
     }
   } catch (e) {
+    console.log(e);
     res.status(400).json({ message: "input invalido" });
   }
 }

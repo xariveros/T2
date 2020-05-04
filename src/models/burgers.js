@@ -9,24 +9,29 @@ const Burger = sequelize.define(
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
+      allowNull: false,
     },
     nombre: {
       type: Sequelize.TEXT,
+      allowNull: false,
     },
     precio: {
       type: Sequelize.INTEGER,
+      allowNull: false,
     },
     descripcion: {
       type: Sequelize.TEXT,
+      allowNull: false,
     },
     imagen: {
       type: Sequelize.TEXT,
+      allowNull: false,
     },
   },
   { timestamps: false }
 );
 
-Burger.hasMany(Burger_Ingrediente, { as: "burger_mid" });
-Burger_Ingrediente.belongsTo(Burger, { foreignKey: "burger_id" });
+Burger.hasMany(Burger_Ingrediente, { as: "ingredientes" });
+Burger_Ingrediente.belongsTo(Burger, { foreignKey: "burgerId" });
 
 export default Burger;

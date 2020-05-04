@@ -8,10 +8,10 @@ const Burger_Ingrediente = sequelize.define(
       type: Sequelize.INTEGER,
       primaryKey: true,
     },
-    burger_id: {
+    burgerId: {
       type: Sequelize.INTEGER,
     },
-    ingrediente_id: {
+    ingredienteId: {
       type: Sequelize.INTEGER,
     },
   },

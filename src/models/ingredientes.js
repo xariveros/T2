@@ -22,6 +22,6 @@ const Ingrediente = sequelize.define(
 );
 
 Ingrediente.hasMany(Burger_Ingrediente, { as: "ingrediente_mid" });
-Burger_Ingrediente.belongsTo(Ingrediente, { foreignKey: "ingrediente_id" });
+Burger_Ingrediente.belongsTo(Ingrediente, { foreignKey: "ingredienteId" });
 
 export default Ingrediente;
