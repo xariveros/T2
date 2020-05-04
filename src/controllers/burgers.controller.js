@@ -5,7 +5,6 @@ import Burger_Ingrediente from "../models/burgers_ingredientes";
 export async function createBurger(req, res) {
   const { nombre, precio, descripcion, imagen } = req.body;
   console.log(req.body);
-  var ingredientes = [];
   try {
     let new_burger = await Burger.create(
       {
@@ -13,12 +12,19 @@ export async function createBurger(req, res) {
         precio,
         descripcion,
         imagen,
-        ingredientes,
       },
       { fields: ["nombre", "precio", "descripcion", "imagen"] }
     );
     if (new_burger) {
-      return res.status(201).json(new_burger);
+      let aux = {
+        id: new_burger.id,
+        nombre: new_burger.nombre,
+        precio: new_burger.precio,
+        descripcion: new_burger.descripcion,
+        imagen: new_burger.imagen,
+        ingredientes: [],
+      };
+      return res.status(201).json(aux);
     }
   } catch (e) {
     console.log(e);
