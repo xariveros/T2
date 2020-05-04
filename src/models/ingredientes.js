@@ -9,11 +9,13 @@ const Ingrediente = sequelize.define(
       type: Sequelize.INTEGER,
       primaryKey: true,
     },
-    name: {
+    nombre: {
       type: Sequelize.TEXT,
+      allowNull: false,
     },
     descripcion: {
       type: Sequelize.TEXT,
+      allowNull: false,
     },
   },
   { timestamps: false }

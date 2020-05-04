@@ -1,19 +1,21 @@
 import Ingrediente from "../models/ingredientes";
 
 export async function createIngrediente(req, res) {
-  const { name, descripcion } = req.body;
+  const { nombre, descripcion } = await req.body;
+  console.log(nombre, descripcion);
   try {
     let new_ingrediente = await Ingrediente.create(
       {
-        name,
+        nombre,
         descripcion,
       },
-      { fields: ["name", "descripcion"] }
+      { fields: ["nombre", "descripcion"] }
     );
     return res
       .status(201)
       .json({ message: "Ingrediente creado", new_ingrediente });
   } catch (e) {
+    console.log(e);
     res.status(400).json({ message: "Input invalido" });
   }
 }
@@ -29,9 +31,13 @@ export async function getIngredienteById(req, res) {
   const { id } = req.params;
   try {
     const ingrediente = await Ingrediente.findOne({ where: { id: id } });
-    res.status(200).json({ data: ingrediente });
+    if (ingrediente) {
+      res.status(200).json({ message: "Operación exitosa", ingrediente });
+    } else {
+      res.status(404).json({ message: "Ingrediente inexistente" });
+    }
   } catch (e) {
-    res.status(400).json({ message: e });
+    res.status(400).json({ message: "id invalido" });
   }
 }
 
