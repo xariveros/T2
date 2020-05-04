@@ -71,21 +71,31 @@ export async function getBurgerById(req, res) {
 export async function deleteBurgerById(req, res) {
   const { id } = req.params;
   const how_many_deleted = await Burger.destroy({ where: { id: id } });
-  res.json({ message: "se elimino", data: how_many_deleted });
+  if (how_many_deleted > 0) {
+    res.status(200).json({ message: "se elimino", data: how_many_deleted });
+  } else {
+    res.status(404).json({ message: "no se encontro", data: how_many_deleted });
+  }
 }
 
 export async function updateBurgerById(req, res) {
   const { id } = req.params;
   const { nombre, precio, descripcion, imagen } = req.body;
   const burger = await Burger.findOne({ where: { id: id } });
-
-  await burger.update({
-    nombre,
-    precio,
-    descripcion,
-    imagen,
-  });
-  res.json(burger);
+  if (!burger) {
+    return res.status(404).json({ message: "id no encontrado" });
+  }
+  try {
+    await burger.update({
+      nombre,
+      precio,
+      descripcion,
+      imagen,
+    });
+    res.status(200).json(burger);
+  } catch (e) {
+    res.status(400).json({ message: "input invalido" });
+  }
 }
 
 export async function addIngredientToBurger(req, res) {
@@ -121,8 +131,15 @@ export async function addIngredientToBurger(req, res) {
 
 export async function deleteIngredienteToBurger(req, res) {
   const { id1, id2 } = req.params;
-  const how_many_deleted = await Burger_Ingrediente.destroy({
-    where: { ingredienteId: id2 },
-  });
-  res.status(200).json({ message: "bien elimnado" });
+  try {
+    const how_many_deleted = await Burger_Ingrediente.destroy({
+      where: { ingredienteId: id2 },
+    });
+    if (how_many_deleted == 0) {
+      res.status(404).json({ message: "no existe" });
+    }
+    res.status(200).json({ message: "bien elimnado" });
+  } catch (e) {
+    res.status(400).json({ message: "id invalido" });
+  }
 }
