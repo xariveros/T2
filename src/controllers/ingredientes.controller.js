@@ -27,8 +27,12 @@ export async function allIngredientes(req, res) {
 
 export async function getIngredienteById(req, res) {
   const { id } = req.params;
-  const ingrediente = await Ingrediente.findOne({ where: { id: id } });
-  res.json({ data: ingrediente });
+  try {
+    const ingrediente = await Ingrediente.findOne({ where: { id: id } });
+    res.status(200).json({ data: ingrediente });
+  } catch (e) {
+    res.status(400).json({ message: e });
+  }
 }
 
 export async function deleteIngredienteById(req, res) {
