@@ -2,33 +2,33 @@ import Burger from "../models/burgers";
 
 //post burger
 export async function createBurger(req, res) {
-  const { name, precio, descripcion, imagen } = req.body;
+  const { nombre, precio, descripcion, imagen } = req.body;
   console.log(req.body);
+  var ingredientes = [];
   try {
     let new_burger = await Burger.create(
       {
-        name,
+        nombre,
         precio,
         descripcion,
         imagen,
+        ingredientes,
       },
-      { fields: ["name", "precio", "descripcion", "imagen"] }
+      { fields: ["nombre", "precio", "descripcion", "imagen"] }
     );
     if (new_burger) {
-      return res.json({ message: "Se creo hamburguesa", data: new_burger });
+      return res.status(201).json(new_burger);
     }
   } catch (e) {
     console.log(e);
-    res.status(500).json({ message: "algo salio mal" });
+    res.status(400).json({ message: "Input invalido" });
   }
 }
 //get burger
 export async function allBurgers(req, res) {
   try {
     const all_burgers = await Burger.findAll();
-    res.json({
-      data: all_burgers,
-    });
+    res.json(all_burgers);
   } catch (e) {
     console.log("no hay");
     res.status(500).json({ message: "algo salio mal" });
@@ -38,8 +38,16 @@ export async function allBurgers(req, res) {
 //hamburguesa por id
 export async function getBurgerById(req, res) {
   const { id } = req.params;
-  const hamburguesa = await Burger.findOne({ where: { id: id } });
-  res.json({ data: hamburguesa });
+  try {
+    const hamburguesa = await Burger.findOne({ where: { id: id } });
+    if (hamburguesa) {
+      res.status(200).json(hamburguesa);
+    } else {
+      res.status(404).json({ message: "No existe" });
+    }
+  } catch (e) {
+    res.status(400).json({ message: "input invalido" });
+  }
 }
 
 //borrar hamburguesa por id

@@ -10,7 +10,7 @@ const Burger = sequelize.define(
       type: Sequelize.INTEGER,
       primaryKey: true,
     },
-    name: {
+    nombre: {
       type: Sequelize.TEXT,
     },
     precio: {
