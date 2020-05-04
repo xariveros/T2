@@ -125,6 +125,9 @@ export async function addIngredientToBurger(req, res) {
       where: { id: id1 },
       //include: { model: Burger_Ingrediente, as: "ingredientes" },
     });
+    if (!hamburguesa) {
+      return res.status(404).json({ message: "hamburguesa no existe" });
+    }
   } catch (e) {
     return res.status(400).json({ message: "id invalido" });
   }
