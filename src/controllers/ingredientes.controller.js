@@ -2,14 +2,20 @@ import Ingrediente from "../models/ingredientes";
 
 export async function createIngrediente(req, res) {
   const { name, descripcion } = req.body;
-  let new_ingrediente = await Ingrediente.create(
-    {
-      name,
-      descripcion,
-    },
-    { fields: ["name", "descripcion"] }
-  );
-  return res.json({ message: "Se creo ingrediente", data: new_ingrediente });
+  try {
+    let new_ingrediente = await Ingrediente.create(
+      {
+        name,
+        descripcion,
+      },
+      { fields: ["name", "descripcion"] }
+    );
+    return res
+      .status(201)
+      .json({ message: "Ingrediente creado", new_ingrediente });
+  } catch (e) {
+    res.status(400).json({ message: "Input invalido" });
+  }
 }
 
 export async function allIngredientes(req, res) {
