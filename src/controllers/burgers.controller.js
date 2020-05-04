@@ -1,5 +1,6 @@
 import Burger from "../models/burgers";
 import Burger_Ingrediente from "../models/burgers_ingredientes";
+import Ingrediente from "../models/ingredientes";
 
 //post burger
 export async function createBurger(req, res) {
@@ -48,7 +49,11 @@ export async function getBurgerById(req, res) {
   try {
     const hamburguesa = await Burger.findOne({
       where: { id: id },
-      include: { model: Burger_Ingrediente, as: "ingredientes" },
+      include: {
+        model: Burger_Ingrediente,
+        as: "ingredientes",
+        attributes: ["path"],
+      },
     });
     if (hamburguesa) {
       res.status(200).json(hamburguesa);
@@ -71,14 +76,45 @@ export async function deleteBurgerById(req, res) {
 
 export async function updateBurgerById(req, res) {
   const { id } = req.params;
-  const { name, precio, descripcion, imagen } = req.body;
+  const { nombre, precio, descripcion, imagen } = req.body;
   const burger = await Burger.findOne({ where: { id: id } });
 
   await burger.update({
-    name,
+    nombre,
     precio,
     descripcion,
     imagen,
   });
-  res.json({ message: "se actualizo", data: burger });
+  res.json(burger);
+}
+
+export async function addIngredientToBurger(req, res) {
+  const { id1, id2 } = req.params;
+  console.log(id1, id2);
+
+  const hamburguesa = await Burger.findOne({
+    where: { id: id1 },
+    //include: { model: Burger_Ingrediente, as: "ingredientes" },
+  });
+
+  const ingrediente = await Ingrediente.findOne({
+    where: { id: id2 },
+    //include: { model: Burger_Ingrediente, as: "ingredientes" },
+  });
+  let path = "https://t2-iic3103-2020.herokuapp.com/ingrediente/" + id2;
+  let burgerId = id1;
+  let ingredienteId = id2;
+  let new_burger_ingrediente = await Burger_Ingrediente.create(
+    {
+      burgerId,
+      ingredienteId,
+      path,
+    },
+    { fields: ["burgerId", "ingredienteId", "path"] }
+  );
+  res.status(201).json({
+    burger: hamburguesa,
+    ingrediente: ingrediente,
+    relacion: new_burger_ingrediente,
+  });
 }

@@ -14,6 +14,9 @@ const Burger_Ingrediente = sequelize.define(
     ingredienteId: {
       type: Sequelize.INTEGER,
     },
+    path: {
+      type: Sequelize.TEXT,
+    },
   },
   { timestamps: false }
 );
