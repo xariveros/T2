@@ -50,5 +50,10 @@ export async function deleteIngredienteById(req, res) {
       .json({ message: "no se puede pq pertenece a una hamburguesa" });
   }
   const how_many_deleted = await Ingrediente.destroy({ where: { id: id } });
+  if (how_many_deleted == 0) {
+    return res
+      .status(404)
+      .json({ message: "id no encontrado", data: how_many_deleted });
+  }
   res.status(200).json({ message: "se elimino", data: how_many_deleted });
 }
