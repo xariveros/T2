@@ -43,6 +43,7 @@ export async function deleteIngredienteById(req, res) {
     where: { ingredienteId: id },
   });
   if (burger_ingrediente) {
+    console.log(burger_ingrediente);
     return res
       .status(409)
       .json({ message: "no se puede pq pertenece a una hamburguesa" });
