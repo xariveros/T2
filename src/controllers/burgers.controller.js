@@ -89,14 +89,18 @@ export async function deleteBurgerById(req, res) {
 export async function updateBurgerById(req, res) {
   const { id } = req.params;
   const { nombre, precio, descripcion, imagen } = req.body;
-  const burger = await Burger.findOne({
-    where: { id: id },
-    include: {
-      model: Burger_Ingrediente,
-      as: "ingredientes",
-      attributes: ["path"],
-    },
-  });
+  try {
+    const burger = await Burger.findOne({
+      where: { id: id },
+      include: {
+        model: Burger_Ingrediente,
+        as: "ingredientes",
+        attributes: ["path"],
+      },
+    });
+  } catch (e) {
+    res.status(400).json({ message: "input invalido" });
+  }
   if (!burger) {
     return res.status(404).json({ message: "id no encontrado" });
   }
