@@ -118,3 +118,11 @@ export async function addIngredientToBurger(req, res) {
     relacion: new_burger_ingrediente,
   });
 }
+
+export async function deleteIngredienteToBurger(req, res) {
+  const { id1, id2 } = req.params;
+  const how_many_deleted = await Burger_Ingrediente.destroy({
+    where: { ingredienteId: id2 },
+  });
+  res.status(200).json({ message: "bien elimnado" });
+}

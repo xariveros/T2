@@ -39,6 +39,14 @@ export async function getIngredienteById(req, res) {
 
 export async function deleteIngredienteById(req, res) {
   const { id } = req.params;
+  const burger_ingrediente = await Burger_Ingrediente.findOne({
+    where: { ingredienteId: id },
+  });
+  if (burger_ingrediente) {
+    return res
+      .status(409)
+      .json({ message: "no se puede pq pertenece a una hamburguesa" });
+  }
   const how_many_deleted = await Ingrediente.destroy({ where: { id: id } });
-  res.json({ message: "se elimino", data: how_many_deleted });
+  res.status(200).json({ message: "se elimino", data: how_many_deleted });
 }
