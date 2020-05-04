@@ -31,6 +31,7 @@ export async function allBurgers(req, res) {
     });
   } catch (e) {
     console.log("no hay");
+    res.status(500).json({ message: "algo salio mal" });
   }
 }
 
