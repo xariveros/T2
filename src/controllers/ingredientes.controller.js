@@ -20,9 +20,7 @@ export async function createIngrediente(req, res) {
 
 export async function allIngredientes(req, res) {
   const ingredientes = await Ingrediente.findAll();
-  res.status(200).json({
-    data: ingredientes,
-  });
+  res.status(200).json(ingredientes);
 }
 
 export async function getIngredienteById(req, res) {
