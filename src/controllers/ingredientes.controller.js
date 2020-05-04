@@ -22,7 +22,7 @@ export async function createIngrediente(req, res) {
 
 export async function allIngredientes(req, res) {
   const ingredientes = await Ingrediente.findAll();
-  res.json({
+  res.status(200).json({
     data: ingredientes,
   });
 }
