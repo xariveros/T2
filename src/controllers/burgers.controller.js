@@ -120,16 +120,21 @@ export async function updateBurgerById(req, res) {
 export async function addIngredientToBurger(req, res) {
   const { id1, id2 } = req.params;
   console.log(id1, id2);
-
-  const hamburguesa = await Burger.findOne({
-    where: { id: id1 },
-    //include: { model: Burger_Ingrediente, as: "ingredientes" },
-  });
-
+  try {
+    const hamburguesa = await Burger.findOne({
+      where: { id: id1 },
+      //include: { model: Burger_Ingrediente, as: "ingredientes" },
+    });
+  } catch (e) {
+    return res.status(400).json({ message: "id invalido" });
+  }
   const ingrediente = await Ingrediente.findOne({
     where: { id: id2 },
     //include: { model: Burger_Ingrediente, as: "ingredientes" },
   });
+  if (!ingrediente) {
+    return res.status(404).json({ message: "ingrediente no existe" });
+  }
   let path = "https://t2-iic3103-2020.herokuapp.com/ingrediente/" + id2;
   let burgerId = id1;
   let ingredienteId = id2;
