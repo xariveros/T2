@@ -35,7 +35,13 @@ export async function createBurger(req, res) {
 //get burger
 export async function allBurgers(req, res) {
   try {
-    const all_burgers = await Burger.findAll();
+    const all_burgers = await Burger.findAll({
+      include: {
+        model: Burger_Ingrediente,
+        as: "ingredientes",
+        attributes: ["path"],
+      },
+    });
     res.json(all_burgers);
   } catch (e) {
     console.log("no hay");
